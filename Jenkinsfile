@@ -15,18 +15,18 @@ node{
 	        }
 	    }
    stage('Build Docker Imager'){
-   sh 'docker build -t saidamo/myweb:0.0.2 .'
+   sh 'docker build -t suganyaindocker/myweb:0.0.2 .'
    }
    stage('Docker Image Push'){
    withCredentials([string(credentialsId: 'dockerPass', variable: 'dockerPassword')]) {
-   sh "docker login -u saidamo -p ${dockerPassword}"
+   sh "docker login -u suganyaindocker -p ${dockerPassword}"
     }
-   sh 'docker push saidamo/myweb:0.0.2'
+   sh 'docker push suganyaindocker/myweb:0.0.2'
    }
-   stage('Nexus Image Push'){
-   sh "docker login -u admin -p admin123 13.127.98.228:8083"
-   sh "docker tag saidamo/myweb:0.0.2 13.127.98.228:8083/damo:1.0.0"
-   sh 'docker push 13.127.98.228:8083/damo:1.0.0'
+    stage('Nexus Image Push'){
+   sh "docker login -u admin -p admin123 13.233.104.144:8083"
+   sh "docker tag suganyaindocker/myweb:0.0.2 13.233.104.144:8083/suganya:1.0.0"
+   sh 'docker push 13.233.104.144:8083/suganya:1.0.0'
    }
    stage('Remove Previous Container'){
 	try{
@@ -35,7 +35,7 @@ node{
 		//  do nothing if there is an exception
 	}
    stage('Docker deployment'){
-   sh 'docker run -d -p 8090:8080 --name tomcattest saidamo/myweb:0.0.2' 
+   sh 'docker run -d -p 8090:8080 --name tomcattest suganyaindocker/myweb:0.0.2' 
    }
 }
 }
